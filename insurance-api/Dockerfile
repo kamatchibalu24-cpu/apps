@@ -1,0 +1,10 @@
+FROM node:18-alpine
+WORKDIR /usr/src/app
+
+# Install only production dependencies for smaller image
+COPY package.json package-lock.json* ./
+RUN npm ci --only=production || npm install --only=production
+
+COPY . .
+EXPOSE 3000
+CMD ["node", "server.js"]
